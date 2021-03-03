@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext ts --ext tsx --ext js",
     "test": "jest",
-    "test-all": "npm run lint && npm run type-check && npm test"
+    "test-all": "npm run lint && npm run type-check && npm test",
+    "generate-companies-data": "ts-node -P ./scripts/tsconfig.json ./scripts/generateCompaniesData.ts"
   },
   "husky": {
     "hooks": {
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",
+    "@types/faker": "^5.1.7",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
@@ -40,12 +42,14 @@
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-react": "^7.19.0",
+    "faker": "^5.4.0",
     "husky": "^4.2.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "jest-watch-typeahead": "^0.6.1",
     "lint-staged": "^10.0.10",
     "prettier": "^2.0.2",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }
 }
