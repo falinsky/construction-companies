@@ -9,6 +9,25 @@ exports[`Home page matches snapshot 1`] = `
       Construction Companies
     </h1>
     <div
+      class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+    >
+      <div
+        class="MuiFormControl-root MuiTextField-root"
+      >
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiInput-input MuiInputBase-inputTypeSearch MuiInput-inputTypeSearch"
+            placeholder="Search by name"
+            type="search"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
       aria-colcount="4"
       aria-label="grid"
       aria-multiselectable="false"

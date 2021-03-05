@@ -1,6 +1,7 @@
 import { Company } from '../lib/api-client/client'
 import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
-import { Avatar } from '@material-ui/core'
+import { Avatar, TextField, Toolbar } from '@material-ui/core'
+import { useState } from 'react'
 
 const columns: GridColDef[] = [
   {
@@ -39,16 +40,33 @@ export default function CompaniesDataGrid({
   isLoading = false,
   isError = false,
 }: CompaniesDataGridProps): JSX.Element {
+  const [searchTerm, setSearchTerm] = useState('')
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase()
+  const filteredCompanies = companies.filter((c) =>
+    c.name.toLowerCase().includes(normalizedSearchTerm)
+  )
+
   return (
-    <DataGrid
-      rows={companies}
-      columns={columns}
-      autoHeight
-      pageSize={10}
-      disableSelectionOnClick
-      columnBuffer={columns.length}
-      loading={isLoading}
-      error={isError || null}
-    />
+    <>
+      <Toolbar>
+        <TextField
+          placeholder="Search by name"
+          type="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </Toolbar>
+
+      <DataGrid
+        rows={filteredCompanies}
+        columns={columns}
+        autoHeight
+        pageSize={10}
+        disableSelectionOnClick
+        columnBuffer={columns.length}
+        loading={isLoading}
+        error={isError || null}
+      />
+    </>
   )
 }
