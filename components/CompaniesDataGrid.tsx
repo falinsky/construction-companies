@@ -1,7 +1,13 @@
 import { Company } from '../lib/api-client/client'
 import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
-import { Avatar, TextField, Toolbar } from '@material-ui/core'
-import { useState } from 'react'
+import {
+  Avatar,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Toolbar,
+} from '@material-ui/core'
+import React, { useState } from 'react'
 
 const columns: GridColDef[] = [
   {
@@ -42,13 +48,45 @@ export default function CompaniesDataGrid({
 }: CompaniesDataGridProps): JSX.Element {
   const [searchTerm, setSearchTerm] = useState('')
   const normalizedSearchTerm = searchTerm.trim().toLowerCase()
-  const filteredCompanies = companies.filter((c) =>
-    c.name.toLowerCase().includes(normalizedSearchTerm)
+
+  const specialties = Array.from(new Set(companies.map((c) => c.specialty)))
+
+  const [specialtiesState, setSpecialtiesState] = useState<
+    Record<string, boolean>
+  >({})
+
+  const specialtyEnabled = (specialty: string) =>
+    !(specialty in specialtiesState) || specialtiesState[specialty]
+
+  const filteredCompanies = companies.filter(
+    (c) =>
+      c.name.toLowerCase().includes(normalizedSearchTerm) &&
+      specialtyEnabled(c.specialty)
   )
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSpecialtiesState((state) => ({
+      ...state,
+      [event.target.name]: event.target.checked,
+    }))
+  }
 
   return (
     <>
       <Toolbar>
+        {specialties.map((specialty) => (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={specialtyEnabled(specialty)}
+                onChange={handleCheckboxChange}
+                name={specialty}
+              />
+            }
+            label={specialty}
+            key={specialty}
+          />
+        ))}
         <TextField
           placeholder="Search by name"
           type="search"

@@ -71,4 +71,54 @@ describe('CompaniesDataGrid', () => {
     screen.getByRole('cell', { name: company1.name })
     expect(screen.queryByRole('cell', { name: company2.name })).toBeNull()
   })
+
+  test('render all available specialties as checked checkboxes', () => {
+    const company1 = {
+      id: 1,
+      name: 'Name 1',
+      logo: 'Logo 1',
+      specialty: 'Specialty 1',
+      city: 'City 1',
+    }
+    const company2 = {
+      id: 2,
+      name: 'Name 2',
+      logo: 'Logo 2',
+      specialty: 'Specialty 2',
+      city: 'City 2',
+    }
+
+    render(<CompaniesDataGrid companies={[company1, company2]} />)
+
+    expect(screen.getByLabelText(company1.specialty)).toHaveProperty(
+      'checked',
+      true
+    )
+    expect(screen.getByLabelText(company2.specialty)).toHaveProperty(
+      'checked',
+      true
+    )
+  })
+
+  test('not render companies with not selected specialties', () => {
+    const company1 = {
+      id: 1,
+      name: 'Name 1',
+      logo: 'Logo 1',
+      specialty: 'Specialty 1',
+      city: 'City 1',
+    }
+    const company2 = {
+      id: 2,
+      name: 'Name 2',
+      logo: 'Logo 2',
+      specialty: 'Specialty 2',
+      city: 'City 2',
+    }
+
+    render(<CompaniesDataGrid companies={[company1, company2]} />)
+
+    userEvent.click(screen.getByLabelText(company1.specialty))
+    expect(screen.queryByRole('cell', { name: company1.specialty })).toBeNull()
+  })
 })
