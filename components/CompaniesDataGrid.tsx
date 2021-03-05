@@ -7,7 +7,7 @@ import {
   TextField,
   Toolbar,
 } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 const columns: GridColDef[] = [
   {
@@ -49,7 +49,10 @@ export default function CompaniesDataGrid({
   const [searchTerm, setSearchTerm] = useState('')
   const normalizedSearchTerm = searchTerm.trim().toLowerCase()
 
-  const specialties = Array.from(new Set(companies.map((c) => c.specialty)))
+  const specialties = useMemo(
+    () => Array.from(new Set(companies.map((c) => c.specialty))),
+    [companies]
+  )
 
   const [specialtiesState, setSpecialtiesState] = useState<
     Record<string, boolean>
